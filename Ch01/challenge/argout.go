@@ -4,11 +4,11 @@ import (
 	"os"
 )
 
-type outStream struct {
+type argOut struct {
 	stream *os.File
 }
 
-func (o *outStream) String() string {
+func (o *argOut) String() string {
 	//TODO: determine if there's a better place for this defer
 	defer o.stream.Close()
 
@@ -19,7 +19,7 @@ func (o *outStream) String() string {
 	return o.stream.Name()
 }
 
-func (o *outStream) Set(s string) error {
+func (o *argOut) Set(s string) error {
 	//Create a new file at path "s"
 	out, err := os.Create(s)
 

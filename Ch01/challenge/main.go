@@ -38,8 +38,7 @@ func main() {
 			 * For multiple args, assume that each is a separate input with its own banner (consistent with stdin treatment)
 	*/
 
-	//TODO: move banner.go, args to separate packages
-	var out outStream
+	var out argOut
 
 	flag.Var(&out, "out", "Path to output file (default: stdout)")
 	flag.Parse()
