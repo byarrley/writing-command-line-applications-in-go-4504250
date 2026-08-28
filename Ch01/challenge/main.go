@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"flag"
+	"fmt"
 	"os"
 )
 
@@ -32,24 +33,34 @@ func main() {
 	/* Args
 	   text: text to print (default: stdin)
 	     * This argument doesn't require file ops
+			 * Unclear from video/comments what to do with multiline stdin, so print a banner for each line
+			 * For multiple args, assume that each is a separate input with its own banner (consistent with stdin treatment)
 	*/
 	flag.Parse()
 
 	text := readInput()
 	width := 6
-	Banner(os.Stdout, text, width)
+
+	for _, line := range text {
+		Banner(os.Stdout, line, width)
+	}
+
 }
 
-func readInput() string {
-	var t string
+func readInput() []string {
+	var t []string
 	if flag.NArg() == 0 {
 		scanner := bufio.NewScanner(os.Stdin)
 
-		if scanner.Scan() {
-			t = scanner.Text()
+		for scanner.Scan() {
+			t = append(t, scanner.Text())
+		}
+
+		if err := scanner.Err(); err != nil {
+			fmt.Fprintln(os.Stderr, "reading input:", err)
 		}
 	} else {
-		t = flag.Arg(0)
+		t = flag.Args()
 	}
 	return t
 }
