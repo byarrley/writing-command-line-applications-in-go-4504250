@@ -1,6 +1,10 @@
 package main
 
-import "os"
+import (
+	"bufio"
+	"flag"
+	"os"
+)
 
 /*
 Instructions:
@@ -26,12 +30,26 @@ func main() {
 	*/
 
 	/* Args
-		   inFile: path to input file (default: stdin)
-		     * Ensure that the file path is valid
-	       * File is non-empty text file
+	   text: text to print (default: stdin)
+	     * This argument doesn't require file ops
 	*/
+	flag.Parse()
 
-	text := "Go"
+	text := readInput()
 	width := 6
 	Banner(os.Stdout, text, width)
+}
+
+func readInput() string {
+	var t string
+	if flag.NArg() == 0 {
+		scanner := bufio.NewScanner(os.Stdin)
+
+		if scanner.Scan() {
+			t = scanner.Text()
+		}
+	} else {
+		t = flag.Arg(0)
+	}
+	return t
 }
