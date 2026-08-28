@@ -39,16 +39,19 @@ func main() {
 	*/
 
 	var out argOut
+	var banner argWidth
 
 	flag.Var(&out, "out", "Path to output file (default: stdout)")
+	flag.Var(&out, "o", "Path to output file (default: stdout)")
+
+	flag.Var(&banner, "width", "Banner width, 0 < width < 250 (default: 80)")
+	flag.Var(&banner, "w", "Banner width, 0 < width < 250 (default: 80)")
 	flag.Parse()
 
 	text := readInput()
 
-	width := 6
-
 	for _, line := range text {
-		Banner(out.stream, line, width)
+		Banner(out.stream, line, banner.width)
 	}
 
 }
