@@ -37,6 +37,8 @@ func main() {
 			 * Unclear from video/comments what to do with multiline stdin, so print a banner for each line
 			 * For multiple args, assume that each is a separate input with its own banner (consistent with stdin treatment)
 	*/
+
+	//TODO: move banner.go, args to separate packages
 	var out outStream
 
 	flag.Var(&out, "out", "Path to output file (default: stdout)")

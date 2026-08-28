@@ -6,18 +6,17 @@ import (
 
 type outStream struct {
 	stream *os.File
-	path   string
 }
 
 func (o *outStream) String() string {
+	//TODO: determine if there's a better place for this defer
 	defer o.stream.Close()
 
 	// if o.stream is nil, default to os.Stdout
 	if o.stream == nil {
 		o.stream = os.Stdout
-		o.path = "/dev/stdout"
 	}
-	return o.path
+	return o.stream.Name()
 }
 
 func (o *outStream) Set(s string) error {
@@ -28,8 +27,6 @@ func (o *outStream) Set(s string) error {
 		return err
 	}
 
-	o.path = s
 	o.stream = out
-
 	return nil
 }
