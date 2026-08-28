@@ -20,6 +20,7 @@ Instructions:
 - Use -out to specify output file
   - Default to stdout
 */
+
 func main() {
 
 	/* Flags
@@ -36,13 +37,17 @@ func main() {
 			 * Unclear from video/comments what to do with multiline stdin, so print a banner for each line
 			 * For multiple args, assume that each is a separate input with its own banner (consistent with stdin treatment)
 	*/
+	var out outStream
+
+	flag.Var(&out, "out", "Path to output file (default: stdout)")
 	flag.Parse()
 
 	text := readInput()
+
 	width := 6
 
 	for _, line := range text {
-		Banner(os.Stdout, line, width)
+		Banner(out.stream, line, width)
 	}
 
 }
