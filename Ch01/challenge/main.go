@@ -33,15 +33,17 @@ func main() {
 
 	/* Args
 	   text: text to print (default: stdin)
-	     * This flagument doesn't require file ops
+	     * This argument doesn't require file ops
 			 * Unclear from video/comments what to do with multiline stdin, so print a banner for each line
-			 * For multiple flags, assume that each is a separate input with its own banner (consistent with stdin treatment)
+			 * For multiple arguments, assume that each is a separate input with its own banner (consistent with stdin treatment)
 	*/
 
 	var out flagOut
 	var banner flagWidth
 
 	flag.Var(&out, "out", "Path to output file (default: stdout)")
+	defer out.stream.Close()
+
 	flag.Var(&banner, "width", "Banner width, 0 < width < 250 (default: 80)")
 	flag.Parse()
 
