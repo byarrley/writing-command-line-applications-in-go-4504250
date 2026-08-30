@@ -34,7 +34,10 @@ func main() {
 		fmt.Printf("checking %q\n", url)
 	}
 
-	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: can't create request: %s\n", err)
 		os.Exit(1)
