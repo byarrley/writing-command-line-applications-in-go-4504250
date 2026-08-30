@@ -5,26 +5,20 @@ import (
 )
 
 type flagOut struct {
-	stream *os.File
+	path string
 }
 
-func (a *flagOut) String() string {
-	// if a.stream is nil, default to os.Stdout
-	if a.stream == nil {
-		a.stream = os.Stdout
+func (f *flagOut) String() string {
+	// if a.path is empty, default to os.Stdout
+	if f.path == "" {
+		f.path = os.Stdout.Name()
 	}
 
-	return a.stream.Name()
+	return f.path
 }
 
-func (a *flagOut) Set(s string) error {
-	//Create a new file at path "s"
-	out, err := os.Create(s)
-
-	if err != nil {
-		return err
-	}
-	a.stream = out
+func (f *flagOut) Set(s string) error {
+	f.path = s
 
 	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -42,17 +43,23 @@ func main() {
 	var banner flagWidth
 
 	flag.Var(&out, "out", "Path to output file (default: stdout)")
-	defer out.stream.Close()
+	flag.Var(&out, "o", "Path to output file (default: stdout)")
 
 	flag.Var(&banner, "width", "Banner width, 0 < width < 250 (default: 80)")
+	flag.Var(&banner, "w", "Banner width, 0 < width < 250 (default: 80)")
 	flag.Parse()
 
 	text := readInput()
+	stream, err := openOutput(out)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stream.Close()
 
 	for _, line := range text {
-		Banner(out.stream, line, banner.width)
+		Banner(stream, line, banner.width)
 	}
-
 }
 
 func readInput() []string {
@@ -71,4 +78,14 @@ func readInput() []string {
 		t = flag.Args()
 	}
 	return t
+}
+
+func openOutput(f flagOut) (*os.File, error) {
+	out, err := os.Create(f.path)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }
