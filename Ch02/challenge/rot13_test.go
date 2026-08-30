@@ -24,10 +24,10 @@ type testCase struct {
 
 func TestRot13Func(t *testing.T) {
 	tests := []testCase{
-		{"initial", "test", "grfg"},
-		{"sub1", "USENET", "HFRARG"},
-		{"sub2", "equivalent", "rdhvinyrag"},
-		{"sub3", "printing", "cevagvat"},
+		{"simple", "test", "grfg"},
+		{"all_caps", "USENET", "HFRARG"},
+		{"special_chars", "</>", "</>"},
+		{"numerals", "12345", "12345"},
 	}
 
 	for _, test := range tests {
@@ -43,10 +43,10 @@ func TestRot13Func(t *testing.T) {
 
 func TestRot13Exe(t *testing.T) {
 	tests := []testCase{
-		{"sub1", "test", "grfg"},
-		{"sub2", "USENET", "HFRARG"},
-		{"sub3", "equivalent", "rdhvinyrag"},
-		{"sub4", "printing", "cevagvat"},
+		{"simple", "test", "grfg"},
+		{"all_caps", "USENET", "HFRARG"},
+		{"special_chars", "</>", "</>"},
+		{"numerals", "12345", "12345"},
 	}
 
 	exe := buildExe(t)
@@ -57,11 +57,10 @@ func TestRot13Exe(t *testing.T) {
 			require.NoError(t, err, "run:\n%s", string(got))
 
 			if strings.TrimSpace(string(got)) != test.want {
-				t.Fatalf("in=%s, want=%s, got=%s", test.in, test.want, got)
+				t.Errorf("in=%s, want=%s, got=%s", test.in, test.want, got)
 			}
 		})
 	}
-
 }
 
 func buildExe(t *testing.T) string {
