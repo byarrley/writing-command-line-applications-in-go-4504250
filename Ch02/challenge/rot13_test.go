@@ -16,11 +16,20 @@ type testCase struct {
 }
 
 func TestRot13Func(t *testing.T) {
-	test := testCase{"initial", "test", "grfg"}
+	tests := []testCase{
+		{"initial", "test", "grfg"},
+		{"sub1", "Usenet", "Hfrarg"},
+		{"sub2", "equivalent", "rdhvinyrag"},
+		{"sub3", "printing", "cevagvat"},
+	}
 
-	got := rot13(test.in)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := rot13(test.in)
 
-	if got != test.want {
-		t.Fatalf("in=%s, want=%s, got=%s", test.in, test.want, got)
+			if got != test.want {
+				t.Fatalf("in=%s, want=%s, got=%s", test.in, test.want, got)
+			}
+		})
 	}
 }
